@@ -1,5 +1,5 @@
 FROM python:3.8-alpine
-LABEL MAINTAINER London App Developer Ltd.
+LABEL MAINTAINER: Artiligence
 
 ENV PYTHONUNBUFFERED 1
 
