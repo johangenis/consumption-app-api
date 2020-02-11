@@ -1,6 +1,13 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+from core import models
+
+
+def sample_user(email="test@agil.com", password="testpass"):
+    """Create a sample user"""
+    return get_user_model().objects.create_user(email, password)
+
 
 class ModelTests(TestCase):
     def test_create_user_with_email_successful(self):
@@ -34,3 +41,11 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_consumption_type_str(self):
+        """Test the consumption type string representation"""
+        consumption_type = models.Consumption_type.objects.create(
+            user=sample_user(), cons_type="Electricity"
+        )
+
+        self.assertEqual(str(consumption_type), consumption_type.cons_type)
