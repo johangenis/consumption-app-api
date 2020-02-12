@@ -28,3 +28,7 @@ class Consumption_recordSerializer(serializers.ModelSerializer):
             "amount",
         )
         read_only_fields = ("id",)
+
+
+class Consumption_recordDetailSerializer(Consumption_recordSerializer):
+    consumption_type = Consumption_typeSerializer(many=True, read_only=True)

@@ -39,3 +39,10 @@ class Consumption_recordViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Retrieve the consumption records for the authenticated user"""
         return self.queryset.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        """Return appropriate serializer class"""
+        if self.action == "retrieve":
+            return serializers.Consumption_recordDetailSerializer
+
+        return self.serializer_class
