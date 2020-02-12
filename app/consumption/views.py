@@ -46,3 +46,7 @@ class Consumption_recordViewSet(viewsets.ModelViewSet):
             return serializers.Consumption_recordDetailSerializer
 
         return self.serializer_class
+
+    def perform_create(self, serializer):
+        """Create a new consumption record"""
+        serializer.save(user=self.request.user)

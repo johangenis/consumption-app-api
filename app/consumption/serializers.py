@@ -15,7 +15,7 @@ class Consumption_typeSerializer(serializers.ModelSerializer):
 class Consumption_recordSerializer(serializers.ModelSerializer):
     """Serialize a consumption record"""
 
-    consumption_types = serializers.PrimaryKeyRelatedField(
+    cons_type = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Consumption_type.objects.all()
     )
 
@@ -31,4 +31,4 @@ class Consumption_recordSerializer(serializers.ModelSerializer):
 
 
 class Consumption_recordDetailSerializer(Consumption_recordSerializer):
-    consumption_type = Consumption_typeSerializer(many=True, read_only=True)
+    cons_type = Consumption_typeSerializer(many=True, read_only=True)
