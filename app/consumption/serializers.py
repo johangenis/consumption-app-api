@@ -23,6 +23,7 @@ class Consumption_recordSerializer(serializers.ModelSerializer):
         model = Consumption_record
         fields = (
             "id",
+            "title",
             "cons_type",
             "date_time",
             "amount",
@@ -31,4 +32,6 @@ class Consumption_recordSerializer(serializers.ModelSerializer):
 
 
 class Consumption_recordDetailSerializer(Consumption_recordSerializer):
+    """Serialize a consumption record detail"""
+
     cons_type = Consumption_typeSerializer(many=True, read_only=True)

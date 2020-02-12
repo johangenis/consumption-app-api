@@ -6,6 +6,8 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
+from django.utils import timezone
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -61,7 +63,7 @@ class Consumption_record(models.Model):
     )
     title = models.CharField(max_length=255, default=None)
     cons_type = models.ManyToManyField("Consumption_type")
-    date_time = models.DateTimeField(auto_now=False)
+    date_time = models.DateTimeField(default=timezone.now)
     amount = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
