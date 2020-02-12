@@ -59,6 +59,7 @@ class Consumption_record(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
+    title = models.CharField(max_length=255, default=None)
     cons_type = models.ManyToManyField("Consumption_type")
     date_time = models.DateTimeField(auto_now=False)
     amount = models.DecimalField(max_digits=7, decimal_places=2)
