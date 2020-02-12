@@ -2,7 +2,7 @@ from rest_framework import viewsets, mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from core.models import Consumption_type
+from core.models import Consumption_type, Consumption_record
 
 from consumption import serializers
 
@@ -26,3 +26,16 @@ class Consumption_typeViewSet(
     def perform_create(self, serializer):
         """Create a new consumption type"""
         serializer.save(user=self.request.user)
+
+
+class Consumption_recordViewSet(viewsets.ModelViewSet):
+    """Manage consumption records in the database"""
+
+    serializer_class = serializers.Consumption_recordSerializer
+    queryset = Consumption_record.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        """Retrieve the consumption records for the authenticated user"""
+        return self.queryset.filter(user=self.request.user)

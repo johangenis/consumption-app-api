@@ -49,3 +49,16 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(consumption_type), consumption_type.cons_type)
+
+    # def test_consumption_record_str(self):
+    #     """Test the consumption record string representation"""
+    #     consumption_record = models.Consumption_record.objects.create(
+    #         user=sample_user(),
+    #         consumption_record.cons_type="Water",
+    #         # cons_type.set("Water"),
+    #         date_time="2020-02-12",
+    #         amount=5.00,
+    #     )
+
+    #     self.assertEqual(str(consumption_record), \
+    #       consumption_record.cons_type)

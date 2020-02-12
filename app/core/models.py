@@ -51,3 +51,17 @@ class Consumption_type(models.Model):
 
     def __str__(self):
         return self.cons_type
+
+
+class Consumption_record(models.Model):
+    """Consumption record object"""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
+    cons_type = models.ManyToManyField("Consumption_type")
+    date_time = models.DateTimeField(auto_now=False)
+    amount = models.DecimalField(max_digits=7, decimal_places=2)
+
+    def __str__(self):
+        return self.title
