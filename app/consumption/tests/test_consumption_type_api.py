@@ -10,7 +10,7 @@ from core.models import Consumption_type
 from consumption.serializers import Consumption_typeSerializer
 
 
-CONSUMPTION_TYPE_URL = reverse("consumption:consumption_type-list")
+CONSUMPTION_TYPES_URL = reverse("consumption:consumption_type-list")
 
 
 class PublicConsumption_typeApiTests(TestCase):
@@ -21,7 +21,7 @@ class PublicConsumption_typeApiTests(TestCase):
 
     def test_login_required(self):
         """Test that login required for retrieving consumption type"""
-        res = self.client.get(CONSUMPTION_TYPE_URL)
+        res = self.client.get(CONSUMPTION_TYPES_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -43,7 +43,7 @@ class PrivateConsumption_typeApiTests(TestCase):
             user=self.user, cons_type="Electricity"
         )
 
-        res = self.client.get(CONSUMPTION_TYPE_URL)
+        res = self.client.get(CONSUMPTION_TYPES_URL)
 
         consumption_type = Consumption_type.objects.all().order_by(
             "-cons_type"
@@ -53,7 +53,7 @@ class PrivateConsumption_typeApiTests(TestCase):
         self.assertEqual(res.data, serializer.data)
 
     def test_consumption_types_limited_to_user(self):
-        """Test that consumption type returned are for authenticated user"""
+        """Test that consumption types returned are for authenticated user"""
         user2 = get_user_model().objects.create_user(
             "other@artil.com", "testpass"
         )
@@ -62,7 +62,7 @@ class PrivateConsumption_typeApiTests(TestCase):
             user=self.user, cons_type="Water"
         )
 
-        res = self.client.get(CONSUMPTION_TYPE_URL)
+        res = self.client.get(CONSUMPTION_TYPES_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
@@ -71,7 +71,7 @@ class PrivateConsumption_typeApiTests(TestCase):
     def test_create_consumption_type_successful(self):
         """Test creating a new consumption type"""
         payload = {"cons_type": "Simple"}
-        self.client.post(CONSUMPTION_TYPE_URL, payload)
+        self.client.post(CONSUMPTION_TYPES_URL, payload)
 
         exists = Consumption_type.objects.filter(
             user=self.user, cons_type=payload["cons_type"]
@@ -81,6 +81,6 @@ class PrivateConsumption_typeApiTests(TestCase):
     def test_create_consumption_type_invalid(self):
         """Test creating a new consumption type with invalid payload"""
         payload = {"cons_type": ""}
-        res = self.client.post(CONSUMPTION_TYPE_URL, payload)
+        res = self.client.post(CONSUMPTION_TYPES_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)

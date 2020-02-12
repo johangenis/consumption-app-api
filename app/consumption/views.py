@@ -7,15 +7,13 @@ from core.models import Consumption_type, Consumption_record
 from consumption import serializers
 
 
-class Consumption_typeViewSet(
+class BaseConsumptionAttrViewSet(
     viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin
 ):
-    """Manage consumption type in the database"""
+    """Base viewset for user owned consumption records attributes"""
 
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    queryset = Consumption_type.objects.all()
-    serializer_class = serializers.Consumption_typeSerializer
 
     def get_queryset(self):
         """Return objects for the current authenticated user only"""
@@ -24,8 +22,15 @@ class Consumption_typeViewSet(
         )
 
     def perform_create(self, serializer):
-        """Create a new consumption type"""
+        """Create a new object"""
         serializer.save(user=self.request.user)
+
+
+class Consumption_typeViewSet(BaseConsumptionAttrViewSet):
+    """Manage consumption types in the database"""
+
+    queryset = Consumption_type.objects.all()
+    serializer_class = serializers.Consumption_typeSerializer
 
 
 class Consumption_recordViewSet(viewsets.ModelViewSet):
