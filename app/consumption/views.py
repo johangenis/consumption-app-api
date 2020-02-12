@@ -41,8 +41,18 @@ class Consumption_recordViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def _params_to_ints(self, qs):
+        """Convert a list of string IDs to a list of integers"""
+        return [int(str_id) for str_id in qs.split(",")]
+
     def get_queryset(self):
         """Retrieve the consumption records for the authenticated user"""
+        cons_type = self.request.query_params.get("cons_type")
+        queryset = self.queryset
+        if cons_type:
+            cons_type_ids = self._params_to_ints(cons_type)
+            queryset = queryset.filter(cons_type__id__in=cons_type_ids)
+
         return self.queryset.filter(user=self.request.user)
 
     def get_serializer_class(self):
